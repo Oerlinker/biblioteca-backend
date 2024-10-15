@@ -1,21 +1,16 @@
-
-const {Pool} = require("pg");
+const { Pool } = require('pg');
+require('dotenv').config();
 
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'dbbiblioteca',
-    password: 'Oriente23',
-    port: 5432,
+    connectionString: process.env.DB_URL,
 });
 
-pool.connect((err, client, release) => {
+pool.connect((err) => {
     if (err) {
-        return console.error('Error adquiriendo cliente', err.stack);
+        console.error('Error connecting to the database:', err);
+    } else {
+        console.log('Connected to the PostgreSQL database');
     }
-    console.log('Conectado a la base de datos');
-    release();
 });
-
 
 module.exports = pool;
