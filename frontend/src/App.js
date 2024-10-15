@@ -15,7 +15,8 @@ import AdministrarUsuarios from "./Pages/AdministrarUsuario";
 import GetAllUsuarios from "./Pages/GetAllUsuarios";
 import AdministrarRoles from "./Pages/AdministrarRoles";
 import Bitacora from "./components/Bitacora";
-import { jwtDecode } from 'jwt-decode';
+import AccountForm from "./Pages/AccountForm"; // Import the AccountForm component
+import {jwtDecode} from 'jwt-decode';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,7 +27,7 @@ function App() {
         const token = localStorage.getItem('token');
         if (token) {
             const decodedToken = jwtDecode(token);
-            const userData = { nombre: decodedToken.nombre, rol: decodedToken.rol }; // Asegúrate de que el nombre esté en el token
+            const userData = { id: decodedToken.id, nombre: decodedToken.nombre, correo: decodedToken.correo, rol: decodedToken.rol }; // Asegúrate de que el nombre y correo estén en el token
             setUser(userData);
             setIsLoggedIn(true);
         }
@@ -46,6 +47,7 @@ function App() {
                 <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />} />
                 <Route path="/books" element={<Books />} />
                 <Route path="/libro/:id" element={<BookDetail />} />
+                <Route path="/account" element={<AccountForm user={user} />} /> {/* Add this route */}
 
                 {isLoggedIn && user.rol === 4 && (
                     <>
